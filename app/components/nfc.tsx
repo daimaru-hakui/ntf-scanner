@@ -4,9 +4,11 @@ import React, { useState } from "react";
 export const Nfc = () => {
   const [message, setMessage] = useState("");
   const [erroMessage, setErrorMessage] = useState("");
+  const [serial,setSerial] = useState('')
 
   const onReading = ({ message, serialNumber }: any) => {
     console.log(serialNumber);
+    setSerial(serialNumber)
     for (const record of message.records) {
       switch (record.recordType) {
         case "text":
@@ -55,6 +57,7 @@ export const Nfc = () => {
         SCAN
       </button>
       <div>{message}</div>
+      <div className="mt-6">{serial}</div>
       <div className="mt-6">{erroMessage}</div>
     </div>
   );
