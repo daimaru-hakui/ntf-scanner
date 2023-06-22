@@ -3,12 +3,11 @@ import React, { useState } from "react";
 
 export const Nfc = () => {
   const [message, setMessage] = useState("");
-  const [erroMessage, setErrorMessage] = useState("");
-  const [serial,setSerial] = useState('')
+  const [serial, setSerial] = useState("");
 
   const onReading = ({ message, serialNumber }: any) => {
     console.log(serialNumber);
-    setSerial(serialNumber)
+    setSerial(serialNumber);
     for (const record of message.records) {
       switch (record.recordType) {
         case "text":
@@ -25,7 +24,7 @@ export const Nfc = () => {
   const getNfc = async () => {
     // NFC APIが利用可能かチェックする
     if ("NDEFReader" in window) {
-        setErrorMessage("NFC APIはサポート!");
+        setMessage("NFC APIはサポート!");
       try {
         // @ts-ignore
         const reader = new NDEFReader();
@@ -33,18 +32,18 @@ export const Nfc = () => {
         console.log("Scan started successfully.");
         reader.onreadingerror = () => {
           console.log("Cannot read data from the NFC tag. Try another one?");
-          setErrorMessage("失敗")
+          setMessage("失敗");
         };
 
         reader.onreading = (event) => {
           console.log("NDEF message read.");
-          setMessage("NDEF message read.")
+          setMessage("NDEF message read.");
           onReading(event); //Find function below
         };
       } catch (error) {}
     } else {
       console.log("NFC APIはサポートされていません。");
-      setErrorMessage("NFC APIはサポートされていません。");
+      setMessage("NFC APIはサポートされていません。");
     }
   };
 
@@ -56,9 +55,8 @@ export const Nfc = () => {
       >
         SCAN
       </button>
-      <div>{message}</div>
+      <div className="mt-6">{message}</div>
       <div className="mt-6">{serial}</div>
-      <div className="mt-6">{erroMessage}</div>
     </div>
   );
 };
